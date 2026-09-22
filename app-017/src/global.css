@@ -32,6 +32,8 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--ink);
+  /* 相对根字号（设置页字号选项作用于 <html>），正文与 font:inherit 的控件随之缩放 */
+  font-size: 100%;
   font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif;
   line-height: 1.5;
 }

@@ -1,5 +1,5 @@
 import { useSettings } from '../App';
-import { DEFAULT_SETTINGS } from '../lib/settings';
+import { createDefaultSettings } from '../lib/settings';
 import type { AppSettings, ToneMode } from '../types';
 
 const FIELDS: { key: keyof AppSettings['printer']; label: string; min: number; max: number; step: number }[] = [
@@ -91,12 +91,7 @@ export default function SettingsPage() {
         className="danger"
         onClick={() => {
           if (confirm('恢复全部默认设置？词语表也会清空。')) {
-            update({
-              toneMode: DEFAULT_SETTINGS.toneMode,
-              autoDetectPinyin: DEFAULT_SETTINGS.autoDetectPinyin,
-              showPageNumbers: DEFAULT_SETTINGS.showPageNumbers,
-              printer: DEFAULT_SETTINGS.printer,
-            });
+            update(createDefaultSettings());
           }
         }}
       >

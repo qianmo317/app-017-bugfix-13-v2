@@ -41,3 +41,12 @@ export function loadSettings(): AppSettings {
 export function saveSettings(s: AppSettings): void {
   localStorage.setItem(KEY, JSON.stringify(s));
 }
+
+/** 返回一份全新的默认设置（深拷贝，避免修改共享的 DEFAULT_SETTINGS），词语表一并清空 */
+export function createDefaultSettings(): AppSettings {
+  return {
+    ...DEFAULT_SETTINGS,
+    printer: { ...DEFAULT_SETTINGS.printer },
+    dictEntries: [],
+  };
+}

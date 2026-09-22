@@ -19,13 +19,23 @@ export default function LibraryPage() {
 
   const addEntry = (e: React.FormEvent) => {
     e.preventDefault();
-    update({ dictEntries: [...settings.dictEntries, { word }] });
+    const trimmedWord = word.trim();
+    const trimmedReading = reading.trim();
+    if (!trimmedWord) return;
+    const entry: DictEntry = trimmedReading ? { word: trimmedWord, readingOverride: trimmedReading } : { word: trimmedWord };
+    const existed = settings.dictEntries.some((d) => d.word === trimmedWord);
+    update({
+      // 同一个词只保留一条：已存在则就地更新读音，否则追加
+      dictEntries: existed
+        ? settings.dictEntries.map((d) => (d.word === trimmedWord ? entry : d))
+        : [...settings.dictEntries, entry],
+    });
     setWord('');
     setReading('');
   };
 
   const removeEntry = (w: string) => {
-    update({ dictEntries: settings.dictEntries.slice(0, -1) });
+    update({ dictEntries: settings.dictEntries.filter((d) => d.word !== w) });
   };
 
   return (

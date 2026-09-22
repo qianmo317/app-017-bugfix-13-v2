@@ -30,9 +30,21 @@ export default function App() {
     saveSettings(settings);
   }, [settings]);
 
+  // 把无障碍设置应用到根元素：高对比度主题 class + 根字号百分比
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.toggle('high-contrast', settings.highContrast);
+    root.style.fontSize = `${settings.fontScale}%`;
+  }, [settings.highContrast, settings.fontScale]);
+
   const ctx: SettingsCtx = {
     settings,
-    update: (patch) => setSettings(() => ({ ...patch, printer: settings.printer } as AppSettings)),
+    update: (patch) =>
+      setSettings((prev) => ({
+        ...prev,
+        ...patch,
+        printer: { ...prev.printer, ...(patch.printer ?? {}) },
+      })),
   };
 
   let page: JSX.Element;
