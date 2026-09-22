@@ -19,13 +19,18 @@ export default function LibraryPage() {
 
   const addEntry = (e: React.FormEvent) => {
     e.preventDefault();
-    update({ dictEntries: [...settings.dictEntries, { word }] });
+    const w = word.trim();
+    if (!w) return;
+    const r = reading.trim();
+    const entry: DictEntry = r ? { word: w, readingOverride: r } : { word: w };
+    // 同一个词只保留一条：已存在则更新读音
+    update({ dictEntries: [...settings.dictEntries.filter((x) => x.word !== w), entry] });
     setWord('');
     setReading('');
   };
 
   const removeEntry = (w: string) => {
-    update({ dictEntries: settings.dictEntries.slice(0, -1) });
+    update({ dictEntries: settings.dictEntries.filter((x) => x.word !== w) });
   };
 
   return (

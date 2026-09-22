@@ -91,12 +91,7 @@ export default function SettingsPage() {
         className="danger"
         onClick={() => {
           if (confirm('恢复全部默认设置？词语表也会清空。')) {
-            update({
-              toneMode: DEFAULT_SETTINGS.toneMode,
-              autoDetectPinyin: DEFAULT_SETTINGS.autoDetectPinyin,
-              showPageNumbers: DEFAULT_SETTINGS.showPageNumbers,
-              printer: DEFAULT_SETTINGS.printer,
-            });
+            update(structuredClone(DEFAULT_SETTINGS));
           }
         }}
       >

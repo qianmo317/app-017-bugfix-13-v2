@@ -30,9 +30,16 @@ export default function App() {
     saveSettings(settings);
   }, [settings]);
 
+  // 无障碍设置应用到根元素：高对比度主题 + 字号缩放
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.toggle('high-contrast', settings.highContrast);
+    root.style.fontSize = `${(16 * settings.fontScale) / 100}px`;
+  }, [settings.highContrast, settings.fontScale]);
+
   const ctx: SettingsCtx = {
     settings,
-    update: (patch) => setSettings(() => ({ ...patch, printer: settings.printer } as AppSettings)),
+    update: (patch) => setSettings((prev) => ({ ...prev, ...patch })),
   };
 
   let page: JSX.Element;
